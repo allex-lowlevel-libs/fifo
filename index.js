@@ -22,8 +22,11 @@ function createFifo(doublelinkedlistbase, inherit) {
   ListMixin.addMethods(Fifo);
 
   Fifo.prototype.push = function(content){
-    var newItem = new FifoItem(content);
-    this.assureForController();
+    var newItem;
+    if (!this.assureForController()) {
+      return;
+    }
+    newItem = new FifoItem(content); 
     this.controller.addToBack(newItem);
     return newItem;
   };
@@ -34,8 +37,10 @@ function createFifo(doublelinkedlistbase, inherit) {
     if (!head) {
       return;
     }
+    if (!this.assureForController()) {
+      return;
+    }
     ret = head.content;
-    this.assureForController();
     this.controller.remove(head);
     head.destroy();
     return func(ret);
@@ -55,12 +60,16 @@ function createFifo(doublelinkedlistbase, inherit) {
       process.exit(0);
       return;
     }
-    this.assureForController();
+    if (!this.assureForController()) {
+      return;
+    }
     this.controller.drain(func);
   };
 
   Fifo.prototype.drainConditionally = function (func) {
-    this.assureForController();
+    if (!this.assureForController()) {
+      return;
+    }
     this.controller.drainConditionally(func);
   };
 
@@ -71,7 +80,9 @@ function createFifo(doublelinkedlistbase, inherit) {
     if (!this.head) {
       return;
     }
-    this.assureForController();
+    if (!this.assureForController()) {
+      return;
+    }
     this.controller.traverse(func);
   };
 
@@ -83,7 +94,9 @@ function createFifo(doublelinkedlistbase, inherit) {
     if (!head) {
       return;
     }
-    this.assureForController();
+    if (!this.assureForController()) {
+      return;
+    }
     return this.controller.traverseConditionally(func);
   };
 
