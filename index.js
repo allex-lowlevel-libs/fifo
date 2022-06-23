@@ -85,6 +85,18 @@ function createFifo(doublelinkedlistbase, inherit) {
     }
     this.controller.traverse(func);
   };
+  Fifo.prototype.traverseSafe = function(func, errorcaption){
+    if ('function' !== typeof func){
+      throw new Error('First parameter is not a function.');
+    }
+    if (!this.head) {
+      return;
+    }
+    if (!this.assureForController()) {
+      return;
+    }
+    this.controller.traverseSafe(func, errorcaption);
+  };
 
   Fifo.prototype.traverseConditionally = function(func){
     if ('function' !== typeof func){

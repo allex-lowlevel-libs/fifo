@@ -1,6 +1,6 @@
 {
   "name": "allex_fifolowlevellib",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Traversable JavaScript FIFO",
   "main": "index.js",
   "scripts": {
